@@ -33,10 +33,13 @@ class VideoManager: ObservableObject {
     // MARK: findVideos
     func findVideos(topic: Query) async {
         
-            guard let url = URL(string: "https://api.pexels.com/videos/search?query=\(topic)&per_page=10&orienttion=portrait") else { return }
+            guard let url = URL(string: "https://api.pexels.com/videos/search?query=\(topic)&per_page=10&orientation=portrait") else { return }
             
             var urlRequest = URLRequest(url: url)
             urlRequest.setValue("563492ad6f91700001000001655fed9f7c154cf4ae425cd2799e94ef", forHTTPHeaderField: "Authorization")
+        
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             URLSession.shared.dataTaskPublisher(for: urlRequest)
                 .tryMap { (output) -> Data in
@@ -47,7 +50,7 @@ class VideoManager: ObservableObject {
                     }
                     return output.data
                 }
-                .decode(type: ResponseBody.self, decoder: JSONDecoder())
+                .decode(type: ResponseBody.self, decoder: decoder)
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
                 .sink { completion in
@@ -55,7 +58,7 @@ class VideoManager: ObservableObject {
                     case .finished:
                         print("completion finish")
                     case .failure(let error):
-                        print("Error: \(error.localizedDescription)")
+                        print("[⚠️] Error: \(error.localizedDescription)")
                     }
                     
                 } receiveValue: { [weak self] returnedResponseBody in
