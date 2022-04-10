@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct VideoPlayerJsonApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            VideoCardView(video: previewVideo)
+            HomeView()
         }
     }
 }

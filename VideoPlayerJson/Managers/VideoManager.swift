@@ -13,7 +13,13 @@ import Combine
 class VideoManager: ObservableObject {
     
     @Published var videos: [Video] = []
-    @Published var selectedQuery = Query.nature
+    @Published var selectedQuery = Query.nature {
+        didSet {
+            Task.init {
+                await findVideos(topic: selectedQuery)
+            }
+        }
+    }
     var cancellable = Set<AnyCancellable>()
     
     init() {
