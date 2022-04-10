@@ -9,7 +9,22 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(Query.allCases, id: \.self) { query in
+                        QueryTagView(query: query, isSelected: false)
+                    }
+                }
+                .padding()
+            }
+            
+            ScrollView {
+                VideoCardView(video: previewVideo)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .background(Color.accentColor)
     }
 }
 
