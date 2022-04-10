@@ -1,6 +1,6 @@
 //
-//  VideoPlayerJSON.swift
-//  VideoPlayerJson
+//  ResponseBody.swift
+//  ResponseBody
 //
 //  Created by Artem Paliutin on 09/04/2022.
 //
@@ -11,7 +11,6 @@ struct ResponseBody: Codable {
     var page, perPage, totalResults: Int
     var url: String
     var videos: [Video]
-    
 }
 
 

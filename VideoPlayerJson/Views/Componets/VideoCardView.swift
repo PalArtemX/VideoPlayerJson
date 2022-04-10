@@ -14,6 +14,7 @@ struct VideoCardView: View {
     var body: some View {
         ZStack {
             ZStack(alignment: .bottomLeading) {
+                // MARK: - Image
                 AsyncImage(url: URL(string: video.image)) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
@@ -26,6 +27,7 @@ struct VideoCardView: View {
                         .cornerRadius(15)
                 }
                 
+                // MARK: - Text
                 VStack(alignment: .leading) {
                     Text("\(video.duration) sec")
                         .bold()
@@ -33,11 +35,13 @@ struct VideoCardView: View {
                         .bold()
                         .multilineTextAlignment(.leading)
                 }
+                .foregroundColor(.white)
                 .font(.caption)
                 .padding()
                 
             }
             
+            // MARK: - Play
             Image(systemName: "play.fill")
                 .font(.title)
                 .padding()

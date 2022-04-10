@@ -10,9 +10,12 @@ import SwiftUI
 @main
 struct VideoPlayerJsonApp: App {
     
+    @StateObject var videoManagerVM = VideoManagerViewModel()
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .environmentObject(videoManagerVM)
         }
     }
 }

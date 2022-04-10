@@ -8,38 +8,38 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var videoManager = VideoManager()
+    
+    @EnvironmentObject var videoManagerVM: VideoManagerViewModel
     let columns = [GridItem(.adaptive(minimum: 160), spacing: 20)]
     
     var body: some View {
-        
         NavigationView {
             VStack {
+                // MARK: - Query Tag
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(Query.allCases, id: \.self) { query in
-                            QueryTagView(query: query, isSelected: videoManager.selectedQuery == query)
+                            QueryTagView(query: query, isSelected: videoManagerVM.selectedQuery == query)
                                 .onTapGesture {
-                                    videoManager.selectedQuery = query
+                                    videoManagerVM.selectedQuery = query
                                 }
                         }
                     }
                     .padding()
                 }
                 
+                // MARK: - Videos
                 ScrollView {
-                    if videoManager.videos.isEmpty {
+                    if videoManagerVM.videos.isEmpty {
                         ProgressView()
                     } else {
                         LazyVGrid(columns: columns) {
-                            ForEach(videoManager.videos, id: \.id) { video in
+                            ForEach(videoManagerVM.videos, id: \.id) { video in
                                 NavigationLink {
                                     VideoView(video: video)
                                 } label: {
                                     VideoCardView(video: video)
                                 }
-
-                                
                             }
                         }
                     }
@@ -64,5 +64,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(VideoManagerViewModel())
     }
 }
